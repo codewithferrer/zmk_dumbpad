@@ -5,6 +5,7 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/zmk/hid_indicators.h>
 
 / {
     chosen {
@@ -52,5 +53,44 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
         sensors = <&left_encoder>;
     };
 
-    // TODO: per-key RGB node(s)?
+    // v1.1 PCB status LEDs (right/center/left, QMK LED_00/LED_01/LED_02).
+    // Pin numbers derived from the original ATmega32u4 pin assignment
+    // (B6/B1/B3) via the standard pro_micro numbering already used above.
+    leds {
+        compatible = "gpio-leds";
+
+        led_right: led_right {
+            gpios = <&pro_micro 10 GPIO_ACTIVE_HIGH>;
+        };
+
+        led_center: led_center {
+            gpios = <&pro_micro 15 GPIO_ACTIVE_HIGH>;
+        };
+
+        led_left: led_left {
+            gpios = <&pro_micro 14 GPIO_ACTIVE_HIGH>;
+        };
+    };
+
+    indicators {
+        compatible = "zmk,indicator-leds";
+
+        num_lock_indicator: num_lock_indicator {
+            indicator = <HID_INDICATOR_NUM_LOCK>;
+            leds = <&led_right>;
+            on-while-idle;
+        };
+
+        scroll_lock_indicator: scroll_lock_indicator {
+            indicator = <HID_INDICATOR_SCROLL_LOCK>;
+            leds = <&led_center>;
+            on-while-idle;
+        };
+
+        caps_lock_indicator: caps_lock_indicator {
+            indicator = <HID_INDICATOR_CAPS_LOCK>;
+            leds = <&led_left>;
+            on-while-idle;
+        };
+    };
 };
