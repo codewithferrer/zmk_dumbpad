@@ -13,7 +13,7 @@
 #
 ---
 include:
-  - board: nice_nano_v2
+  - board: nice_nano@2//zmk
     shield: dumbpad
-  - board: nice_nano_v2
+  - board: nice_nano@2//zmk
     shield: settings_reset
