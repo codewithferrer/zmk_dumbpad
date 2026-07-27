@@ -31,13 +31,15 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
         label = "KSCAN";
 
         diode-direction = "col2row";
-        // TEST: row 1 (2nd entry) moved from pro_micro 20 (F5) to pro_micro 0
-        // (D0, free) -- F5 electrically checks out (continuity) but the
-        // matrix scan never registers it; bypassing to a different pin to
-        // see if that's actually the fix, same idea as the original bypass.
+        // TEST: row 1 (2nd entry) moved from pro_micro 20 (F5) to pro_micro 10
+        // (B6) -- the exact pin used for the original bypass on the old PCB.
+        // F5 and D0 both checked out electrically but the matrix scan never
+        // registered either; trying a pin with a known-good track record.
+        // NOTE: pro_micro 10 is normally the right status LED -- moved to
+        // pro_micro 1 below to avoid the conflict while testing this.
         row-gpios
             = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
@@ -63,8 +65,10 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
     leds {
         compatible = "gpio-leds";
 
+        // TEST: moved from pro_micro 10 to pro_micro 1 -- pin 10 (B6) is
+        // being reused for the row-1 bypass test above.
         led_right: led_right {
-            gpios = <&pro_micro 10 GPIO_ACTIVE_HIGH>;
+            gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
         };
 
         led_center: led_center {
