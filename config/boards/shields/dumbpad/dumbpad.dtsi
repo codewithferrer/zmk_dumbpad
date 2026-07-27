@@ -65,12 +65,13 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
     leds {
         compatible = "gpio-leds";
 
-        // TEST: moved from pro_micro 10 to pro_micro 3 -- pin 10 (B6) is
-        // being reused for the row-1 bypass test above. (pro_micro 1/D1 had
-        // no continuity through the socket; pro_micro 2/D2 also didn't light
-        // the LED -- trying pro_micro 3/D3 next.)
+        // TEST: pro_micro 10 (B6) is reused for the row-1 bypass above, and
+        // pro_micro 1/2/3 (D1/D2/D3) all failed in turn (no continuity or no
+        // light). Trying P1.01, one of the 3 extra through-hole pins on the
+        // nice_nano that sit outside the standard pro_micro pinout entirely
+        // -- referenced directly via the gpio1 controller, not &pro_micro.
         led_right: led_right {
-            gpios = <&pro_micro 3 GPIO_ACTIVE_HIGH>;
+            gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
         };
 
         led_center: led_center {
