@@ -72,6 +72,10 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
         };
     };
 
+    // TEST: forced always-on (both brightness levels =100, plus while
+    // disconnected) regardless of indicator state, just to check the 3 LEDs
+    // physically light up. To restore: delete the 2 added lines in each
+    // node below (inactive-brightness / disconnected-brightness).
     indicators {
         compatible = "zmk,indicator-leds";
 
@@ -79,18 +83,24 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
             indicator = <HID_INDICATOR_NUM_LOCK>;
             leds = <&led_right>;
             on-while-idle;
+            inactive-brightness = <100>;
+            disconnected-brightness = <100>;
         };
 
         scroll_lock_indicator: scroll_lock_indicator {
             indicator = <HID_INDICATOR_SCROLL_LOCK>;
             leds = <&led_center>;
             on-while-idle;
+            inactive-brightness = <100>;
+            disconnected-brightness = <100>;
         };
 
         caps_lock_indicator: caps_lock_indicator {
             indicator = <HID_INDICATOR_CAPS_LOCK>;
             leds = <&led_left>;
             on-while-idle;
+            inactive-brightness = <100>;
+            disconnected-brightness = <100>;
         };
     };
 };

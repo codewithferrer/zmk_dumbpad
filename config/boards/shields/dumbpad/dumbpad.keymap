@@ -7,6 +7,12 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+/*
+ * TEMPORARY KEY-TEST KEYMAP ACTIVE BELOW -- this is the real config, kept
+ * here commented out so it's a single copy/paste to restore. To go back:
+ * delete everything from the "TEST KEYMAP" block down to the end of the
+ * file, then remove this opening comment marker and its closing pair below.
+
 / {
 
         macros {
@@ -127,6 +133,38 @@
             >;
 
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
+        };
+    };
+};
+
+ * END OF REAL CONFIG -- TEST KEYMAP BELOW IS THE ACTIVE ONE
+ */
+
+// TEST KEYMAP: one letter per physical key (A-Q, reading order: row0 -> row3,
+// left to right), so each key can be identified by typing into a text field
+// and checking which letter appears. Encoder rotation sends X (clockwise) /
+// Y (counter-clockwise); the encoder's push-button is key M (row3, pos0).
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+// -------------------------
+// |  A  |  B  |  C  |  D  |
+// |  E  |  F  |  G  |  H  |
+// |  I  |  J  |  K  |  L  |
+// | M*  |  N  |  O  |  P  | Q
+// -------------------------
+// M* is the encoder's push-button. Encoder rotation: X clockwise, Y counter-
+// clockwise (see sensor-bindings below).
+            bindings = <
+                &kp A  &kp B  &kp C  &kp D
+                &kp E  &kp F  &kp G  &kp H
+                &kp I  &kp J  &kp K  &kp L
+    &kp M  &kp N  &kp O  &kp P  &kp Q
+            >;
+
+            sensor-bindings = <&inc_dec_kp X Y>;
         };
     };
 };
