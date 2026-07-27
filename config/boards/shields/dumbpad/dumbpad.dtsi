@@ -65,10 +65,11 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
     leds {
         compatible = "gpio-leds";
 
-        // TEST: moved from pro_micro 10 to pro_micro 1 -- pin 10 (B6) is
-        // being reused for the row-1 bypass test above.
+        // TEST: moved from pro_micro 10 to pro_micro 2 -- pin 10 (B6) is
+        // being reused for the row-1 bypass test above. (pro_micro 1/D1 was
+        // tried first but had no continuity through the socket -- skipping it.)
         led_right: led_right {
-            gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
+            gpios = <&pro_micro 2 GPIO_ACTIVE_HIGH>;
         };
 
         led_center: led_center {
