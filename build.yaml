@@ -15,5 +15,6 @@
 include:
   - board: nice_nano@2//zmk
     shield: dumbpad
+    snippet: zmk-usb-logging
   - board: nice_nano@2//zmk
     shield: settings_reset
