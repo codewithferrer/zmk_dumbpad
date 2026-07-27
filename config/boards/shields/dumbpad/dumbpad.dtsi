@@ -31,9 +31,13 @@ RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4)
         label = "KSCAN";
 
         diode-direction = "col2row";
+        // TEST: row 1 (2nd entry) moved from pro_micro 20 (F5) to pro_micro 0
+        // (D0, free) -- F5 electrically checks out (continuity) but the
+        // matrix scan never registers it; bypassing to a different pin to
+        // see if that's actually the fix, same idea as the original bypass.
         row-gpios
             = <&pro_micro 21 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&pro_micro 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&pro_micro 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&pro_micro 19 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&pro_micro 18 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
