@@ -104,25 +104,26 @@
 
         default_layer {
 // -------------------------------------------------------------------
-// | QUICK   | VOICE    | NEW CHAT   | STOP        |
-// | SEARCH  | SIDEBAR  | PROJ A     | PROJ B      |
-// | SEND    | NUM LOCK | SCRL LOCK  | ZOOM IN     |
-// | SEND*   | ZOOM OUT | ZOOM RESET | PROJ C | PROJ D
+// | QUICK   | VOICE    | NEW CHAT | STOP        |
+// | SEARCH  | SIDEBAR  | PROJ A   | PROJ B      |
+// | SEND    | CODE: 1  | CODE: 2  | ZOOM IN     |
+// | SEND*   | ZOOM OUT | CODE: 3  | PROJ C | PROJ D
 // -------------------------------------------------------------------
 // QUICK/VOICE send F19/F20 -- bind those as the Custom "Quick access"
 // and "Voice" shortcuts in Claude Desktop (Settings > Desktop app > General).
-// NUM LOCK/SCRL LOCK toggle the right/center status LEDs (see dumbpad.dtsi) as
-// free-form flags -- they have no side effect on typing on macOS. The left LED
-// passively mirrors the real system Caps Lock state and has no key here.
-// ZOOM IN/OUT/RESET (Cmd +/-/0) are confirmed Claude Desktop shortcuts.
+// CODE: 1/2/3 send the digit keys Claude Code's permission prompts read
+// directly (Deny/Allow once/Allow always -- the exact action per digit
+// shifts depending on how many options the prompt shows, so these just
+// press the position, same as typing 1/2/3 on a regular keyboard).
+// ZOOM IN/OUT (Cmd +/-) are confirmed Claude Desktop shortcuts.
 // SEND* is the encoder's push-button (this PCB's combo Cherry MX/EC11 socket
 // wires the encoder click into the matrix as this key) -- pairs with the
 // encoder's scroll-conversation rotation below: rotate to read, click to send.
             bindings = <
                 &kp F19    &kp F20        &kp LG(O)       &kp ESC
                 &kp LG(K)  &kp LG(LS(S))  &claude_proj_a  &claude_proj_b
-                &kp RET    &kp KP_NUM     &kp SLCK        &kp LG(EQUAL)
-    &kp RET  &kp LG(MINUS)  &kp LG(N0)  &claude_proj_c  &claude_proj_d
+                &kp RET    &kp N1         &kp N2          &kp LG(EQUAL)
+    &kp RET  &kp LG(MINUS)  &kp N3  &claude_proj_c  &claude_proj_d
             >;
 
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
