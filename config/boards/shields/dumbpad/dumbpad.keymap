@@ -4,100 +4,520 @@
  * SPDX-License-Identifier: MIT
  */
 
+// Minecraft (Bedrock, Nintendo Switch) command pad. Single layer, no Claude
+// bindings -- the Claude Desktop control-surface keymap is parked, still
+// available in git history at commit bdd6a78 if you want it back later.
+//
+// Requires a wired USB connection (via the Switch dock's USB-A port, or a
+// USB-C-to-A adapter) -- Switch's own USB-C port isn't a host port in
+// handheld mode, and Bluetooth keyboards are unreliable on Switch.
+//
+// Every command key: presses "/" (opens Minecraft's chat box pre-filled with
+// "/"), types the rest of the command, then Enter to send. The bottom-left
+// key (the encoder's push-button) instead sends plain "T", which opens chat
+// for a normal (non-command) message.
+
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-
-/*
- * TEMPORARY KEY-TEST KEYMAP ACTIVE BELOW -- this is the real config, kept
- * here commented out so it's a single copy/paste to restore. To go back:
- * delete everything from the "TEST KEYMAP" block down to the end of the
- * file, then remove this opening comment marker and its closing pair below.
 
 / {
 
         macros {
-              // Cmd+K (switch conversation) then type a pinned project name, then Enter.
-              // Replace the typed letters below with your real project name before flashing.
-              claude_proj_a: claude_proj_a {
-                label = "ZM_CLAUDE_PROJECT_A";
+              mc_gm_creative: mc_gm_creative {
+                label = "ZM_MC_GM_CREATIVE";
                 compatible = "zmk,behavior-macro";
                 #binding-cells = <0>;
-                wait-ms = <30>;
+                wait-ms = <20>;
                 tap-ms = <10>;
                 bindings
-                        = <&macro_tap &kp LG(K)>
-                        , <&macro_tap &kp P>
-                        , <&macro_tap &kp R>
-                        , <&macro_tap &kp O>
-                        , <&macro_tap &kp J>
-                        , <&macro_tap &kp E>
-                        , <&macro_tap &kp C>
-                        , <&macro_tap &kp T>
-                        , <&macro_tap &kp SPACE>
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp G>
                         , <&macro_tap &kp A>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp D>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp V>
+                        , <&macro_tap &kp E>
                         , <&macro_tap &kp RET>
                         ;
               };
 
-              claude_proj_b: claude_proj_b {
-                label = "ZM_CLAUDE_PROJECT_B";
+              mc_gm_survival: mc_gm_survival {
+                label = "ZM_MC_GM_SURVIVAL";
                 compatible = "zmk,behavior-macro";
                 #binding-cells = <0>;
-                wait-ms = <30>;
+                wait-ms = <20>;
                 tap-ms = <10>;
                 bindings
-                        = <&macro_tap &kp LG(K)>
-                        , <&macro_tap &kp P>
-                        , <&macro_tap &kp R>
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp G>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp M>
                         , <&macro_tap &kp O>
-                        , <&macro_tap &kp J>
+                        , <&macro_tap &kp D>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp U>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp V>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp V>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              // /effect @s fire_resistance 999 1 -- fire/lava immunity.
+              mc_fire_resistance: mc_fire_resistance {
+                label = "ZM_MC_FIRE_RESISTANCE";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp F>
                         , <&macro_tap &kp E>
                         , <&macro_tap &kp C>
                         , <&macro_tap &kp T>
                         , <&macro_tap &kp SPACE>
-                        , <&macro_tap &kp B>
-                        , <&macro_tap &kp RET>
-                        ;
-              };
-
-              claude_proj_c: claude_proj_c {
-                label = "ZM_CLAUDE_PROJECT_C";
-                compatible = "zmk,behavior-macro";
-                #binding-cells = <0>;
-                wait-ms = <30>;
-                tap-ms = <10>;
-                bindings
-                        = <&macro_tap &kp LG(K)>
-                        , <&macro_tap &kp P>
-                        , <&macro_tap &kp R>
-                        , <&macro_tap &kp O>
-                        , <&macro_tap &kp J>
-                        , <&macro_tap &kp E>
-                        , <&macro_tap &kp C>
-                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp S>
                         , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp UNDER>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp N>
                         , <&macro_tap &kp C>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N1>
                         , <&macro_tap &kp RET>
                         ;
               };
 
-              claude_proj_d: claude_proj_d {
-                label = "ZM_CLAUDE_PROJECT_D";
+              mc_time_day: mc_time_day {
+                label = "ZM_MC_TIME_DAY";
                 compatible = "zmk,behavior-macro";
                 #binding-cells = <0>;
-                wait-ms = <30>;
+                wait-ms = <20>;
                 tap-ms = <10>;
                 bindings
-                        = <&macro_tap &kp LG(K)>
-                        , <&macro_tap &kp P>
-                        , <&macro_tap &kp R>
-                        , <&macro_tap &kp O>
-                        , <&macro_tap &kp J>
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp M>
                         , <&macro_tap &kp E>
-                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp E>
                         , <&macro_tap &kp T>
                         , <&macro_tap &kp SPACE>
                         , <&macro_tap &kp D>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp Y>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_time_night: mc_time_night {
+                label = "ZM_MC_TIME_NIGHT";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp G>
+                        , <&macro_tap &kp H>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_weather_clear: mc_weather_clear {
+                label = "ZM_MC_WEATHER_CLEAR";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp W>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp H>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_tp_up: mc_tp_up {
+                label = "ZM_MC_TP_UP";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp P>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp TILDE>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp TILDE>
+                        , <&macro_tap &kp N1>
+                        , <&macro_tap &kp N0>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp TILDE>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              // /effect @s night_vision 999 1 -- permanent night vision.
+              mc_night_vision: mc_night_vision {
+                label = "ZM_MC_NIGHT_VISION";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp G>
+                        , <&macro_tap &kp H>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp UNDER>
+                        , <&macro_tap &kp V>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N1>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_difficulty_peaceful: mc_difficulty_peaceful {
+                label = "ZM_MC_DIFFICULTY_PEACEFUL";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp D>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp U>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp Y>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp P>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp U>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              // /kill @e[family=monster] -- only hostile mobs (zombies,
+              // skeletons, creepers, etc.), leaves tamed/passive mobs alone.
+              mc_kill_hostile: mc_kill_hostile {
+                label = "ZM_MC_KILL_HOSTILE";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp K>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp LBKT>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp Y>
+                        , <&macro_tap &kp EQUAL>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp RBKT>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              // /tp @a @s -- teleports every player to you (gather the group).
+              mc_tp_all_to_me: mc_tp_all_to_me {
+                label = "ZM_MC_TP_ALL_TO_ME";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp P>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_effect_speed: mc_effect_speed {
+                label = "ZM_MC_EFFECT_SPEED";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp P>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp D>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N2>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_effect_jump: mc_effect_jump {
+                label = "ZM_MC_EFFECT_JUMP";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp F>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp AT>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp J>
+                        , <&macro_tap &kp U>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp P>
+                        , <&macro_tap &kp UNDER>
+                        , <&macro_tap &kp B>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp N9>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp N2>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_summon_lightning: mc_summon_lightning {
+                label = "ZM_MC_SUMMON_LIGHTNING";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp U>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp G>
+                        , <&macro_tap &kp H>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp I>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp G>
+                        , <&macro_tap &kp UNDER>
+                        , <&macro_tap &kp B>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp L>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp TILDE>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp TILDE>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp TILDE>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_weather_thunder: mc_weather_thunder {
+                label = "ZM_MC_WEATHER_THUNDER";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp W>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp H>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp H>
+                        , <&macro_tap &kp U>
+                        , <&macro_tap &kp N>
+                        , <&macro_tap &kp D>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp R>
+                        , <&macro_tap &kp RET>
+                        ;
+              };
+
+              mc_gm_spectator: mc_gm_spectator {
+                label = "ZM_MC_GM_SPECTATOR";
+                compatible = "zmk,behavior-macro";
+                #binding-cells = <0>;
+                wait-ms = <20>;
+                tap-ms = <10>;
+                bindings
+                        = <&macro_tap &kp FSLH>
+                        , <&macro_tap &kp G>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp M>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp D>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp SPACE>
+                        , <&macro_tap &kp S>
+                        , <&macro_tap &kp P>
+                        , <&macro_tap &kp E>
+                        , <&macro_tap &kp C>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp A>
+                        , <&macro_tap &kp T>
+                        , <&macro_tap &kp O>
+                        , <&macro_tap &kp R>
                         , <&macro_tap &kp RET>
                         ;
               };
@@ -109,62 +529,31 @@
         compatible = "zmk,keymap";
 
         default_layer {
-// -------------------------------------------------------------------
-// | QUICK   | VOICE    | NEW CHAT | STOP        |
-// | SEARCH  | SIDEBAR  | PROJ A   | PROJ B      |
-// | SEND    | CODE: 1  | CODE: 2  | ZOOM IN     |
-// | SEND*   | ZOOM OUT | CODE: 3  | PROJ C | PROJ D
-// -------------------------------------------------------------------
-// QUICK/VOICE send F19/F20 -- bind those as the Custom "Quick access"
-// and "Voice" shortcuts in Claude Desktop (Settings > Desktop app > General).
-// CODE: 1/2/3 send the digit keys Claude Code's permission prompts read
-// directly (Deny/Allow once/Allow always -- the exact action per digit
-// shifts depending on how many options the prompt shows, so these just
-// press the position, same as typing 1/2/3 on a regular keyboard).
-// ZOOM IN/OUT (Cmd +/-) are confirmed Claude Desktop shortcuts.
-// SEND* is the encoder's push-button (this PCB's combo Cherry MX/EC11 socket
-// wires the encoder click into the matrix as this key) -- pairs with the
-// encoder's scroll-conversation rotation below: rotate to read, click to send.
+// -----------------------------------------------------------------------
+// | GM CREATIVE  | GM SURVIVAL | GM SPECTATE  | DIFF PEACE    |
+// | TIME DAY     | TIME NIGHT  | WEATHER CLR  | WEATHER THNDR |
+// | NIGHT VISION | KILL HOSTILE| TP ALL TO ME | FX SPEED      |
+// | CHAT (T)*    | FX JUMP     | LIGHTNING    | TP UP   | FIRE RESIST
+// -----------------------------------------------------------------------
+// The 4 gamemode/difficulty keys (CREATIVE/SURVIVAL/SPECTATE/DIFF PEACE)
+// are grouped in row 0; the 4 time/weather keys are grouped in row 1.
+// KILL HOSTILE only targets hostile mobs (@e[family=monster]). TP ALL TO
+// ME teleports every player to you (@a to @s) -- handy for gathering the
+// group, and doubles as a prank.
+// Every key except CHAT is a macro: "/" (opens chat pre-filled with the
+// command prefix) + the rest of the command text + Enter.
+// CHAT* is the encoder's push-button (this PCB's combo Cherry MX/EC11
+// socket wires the encoder click into the matrix as this key) -- sends
+// plain "T" to open chat for a normal (non-command) message.
+// Encoder rotation scrolls the chat history (Page Up/Down).
             bindings = <
-                &kp F19    &kp F20        &kp LG(O)       &kp ESC
-                &kp LG(K)  &kp LG(LS(S))  &claude_proj_a  &claude_proj_b
-                &kp RET    &kp N1         &kp N2          &kp LG(EQUAL)
-    &kp RET  &kp LG(MINUS)  &kp N3  &claude_proj_c  &claude_proj_d
+                &mc_gm_creative   &mc_gm_survival   &mc_gm_spectator  &mc_difficulty_peaceful
+                &mc_time_day      &mc_time_night        &mc_weather_clear &mc_weather_thunder
+                &mc_night_vision  &mc_kill_hostile  &mc_tp_all_to_me    &mc_effect_speed
+    &kp T  &mc_effect_jump  &mc_summon_lightning  &mc_tp_up  &mc_fire_resistance
             >;
 
             sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
-        };
-    };
-};
-
- * END OF REAL CONFIG -- TEST KEYMAP BELOW IS THE ACTIVE ONE
- */
-
-// TEST KEYMAP: one letter per physical key (A-Q, reading order: row0 -> row3,
-// left to right), so each key can be identified by typing into a text field
-// and checking which letter appears. Encoder rotation sends X (clockwise) /
-// Y (counter-clockwise); the encoder's push-button is key M (row3, pos0).
-/ {
-    keymap {
-        compatible = "zmk,keymap";
-
-        default_layer {
-// -------------------------
-// |  A  |  B  |  C  |  D  |
-// |  E  |  F  |  G  |  H  |
-// |  I  |  J  |  K  |  L  |
-// | M*  |  N  |  O  |  P  | Q
-// -------------------------
-// M* is the encoder's push-button. Encoder rotation: X clockwise, Y counter-
-// clockwise (see sensor-bindings below).
-            bindings = <
-                &kp A  &kp B  &kp C  &kp D
-                &kp E  &kp F  &kp G  &kp H
-                &kp I  &kp J  &kp K  &kp L
-    &kp M  &kp N  &kp O  &kp P  &kp Q
-            >;
-
-            sensor-bindings = <&inc_dec_kp X Y>;
         };
     };
 };
